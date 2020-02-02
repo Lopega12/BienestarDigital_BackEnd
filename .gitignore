@@ -21,3 +21,7 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+
+bienestar_api/.idea/
+
+bienestar_api/composer.phar
