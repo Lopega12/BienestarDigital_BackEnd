@@ -23,4 +23,5 @@ Route::middleware('auth:api')->post('list','FileController@post');
 Route::post('loginApi','LoginUserController@login');
 Route::post('registerApi','LoginUserController@register');
 
-
+Route::post('/password/email','Api\ForgotPasswordController@sendResetLinkEmail');
+Route::post('/password/reset','Api\ResetPasswordController@reset');
