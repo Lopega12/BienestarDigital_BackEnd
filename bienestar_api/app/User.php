@@ -38,10 +38,40 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /***
+     * Notificación personalizada para el envio de email de recuperar la contraseña
+     * @param string $token
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PasswordResetNotification($token));
     }
+
+    public function apps_user(){
+        return $this->belongsToMany('App\App','users_have_apps')->
+        withPivot(['action','date','latitude','longitude'])->withTimestamps();
+    }
+
+    public function apps_restrinctions(){
+        return $this->belongsToMany('App\App','users_restrict_apps')->
+        withPivot(['max_use_time','start_time','finish_time'])->withTimestamps();
+    }
+
+    public function getDatesFromApps(){
+        return $this->belongsToMany('App\App','users_have_apps')->
+        withPivot('action')->
+        selectRaw('DATE(date) as date_groups,date')->
+        withTimestamps();
+    }
+
+    public function getLocation(){
+        return $this->belongsToMany('App\App','users_have_apps')->
+        withPivot(['name','date','longitude','latitude'])->
+        select(['name','date','longitude','latitude'])->
+        withTimestamps();
+    }
+
+
 
 
 }
