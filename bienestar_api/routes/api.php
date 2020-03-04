@@ -18,7 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware('auth:api')->post('list','FileController@post');
+Route::middleware('auth:api')->post('storeFromFile','FileController@post');
+Route::middleware('auth:api')->post('store','FileController@post');
 
 Route::post('loginApi','LoginUserController@login');
 Route::post('registerApi','LoginUserController@register');

@@ -18,8 +18,19 @@ class Fichero{
      * @param $file This parameter should be contain a string of all lines in the file.
      */
      public function readFile($file){
-         $file = preg_split("'\n'",$file);
-         $header = array_shift($file);
-         return $file;
+        // $file = explode("'\n'",$file);
+         if(isset($r->fichero->pathName)){
+            //aqui va lectura de fichero desde php
+         }else{
+             $lines = Array();
+             $file = explode("\n",$file);
+             $header = array_shift($file);
+             foreach ($file as $line){
+                 array_push($lines,str_getcsv($line));
+             }
+
+         }
+
+         return $lines;
      }
 }
