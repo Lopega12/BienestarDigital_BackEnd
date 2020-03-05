@@ -27,3 +27,7 @@ Route::post('registerApi','LoginUserController@register');
 
 Route::post('/password/email','Api\ForgotPasswordController@sendResetLinkEmail');
 Route::post('/password/reset','Api\ResetPasswordController@reset');
+Route::get('apps','AppController@getAllApps');
+
+Route::middleware('auth:api')->post('create_restrinction/{app_id}','UserController@save_restriction');
+Route::middleware('auth:api')->get('restrinctions','AppController@get_restrinctions');
