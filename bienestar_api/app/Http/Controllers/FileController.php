@@ -21,11 +21,12 @@ class FileController extends Controller
        // var_dump($r->fichero);
         $lines = $fileController->readFile($r->fichero);
         $user = $r->user();
-        var_dump($lines);
+        //var_dump($lines);
         try {
             foreach ($lines as $key => $line){
                 $app = App::where('name_app',$line[1])->first();
-                if(!is_null($app)){
+                if(is_null($app)){
+                    //Attach sirve para insertar en la tabla intermedia, sin tener que crear el modelo//
                     $user->apps_user()->attach($app->id,[
                         'date'=> $line[0],
                         'action'=> $line[2],

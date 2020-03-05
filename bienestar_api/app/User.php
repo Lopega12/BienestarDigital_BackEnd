@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function apps_restrinctions(){
         return $this->belongsToMany('App\App','users_restrict_apps')->
-        withPivot(['max_use_time','start_time','finish_time'])->withTimestamps();
+        withPivot('max_use_time','start_time','finish_time')->withTimestamps();
     }
 
     public function getDatesFromApps(){
