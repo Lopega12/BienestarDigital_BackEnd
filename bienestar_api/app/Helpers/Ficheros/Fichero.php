@@ -19,10 +19,11 @@ class Fichero{
      */
      public function readFile($file){
         // $file = explode("'\n'",$file);
+         $lines = Array();
          if(isset($r->fichero->pathName)){
             //aqui va lectura de fichero desde php
          }else{
-             $lines = Array();
+
              $file = explode("\n",$file);
              $header = array_shift($file);
              foreach ($file as $line){

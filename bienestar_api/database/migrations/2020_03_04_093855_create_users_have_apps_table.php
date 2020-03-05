@@ -15,7 +15,9 @@ class CreateUsersHaveAppsTable extends Migration
     {
         Schema::create('users_have_apps', function (Blueprint $table) {
           //  $table->bigIncrements('id');
+            $table->primary(['user_id','app_id','date']);
             $table->unsignedInteger('app_id');
+            $table->unsignedInteger('user_id');
             $table->dateTime('date');
             $table->string('action');
             $table->double('longitude',8);
