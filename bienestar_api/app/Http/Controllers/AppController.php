@@ -14,6 +14,12 @@ class AppController extends Controller
         $response['response'] = App::all(['id','logo','name_app']);
         return response()->json($response['response'],$response['code']);
     }
+
+    /**
+     * Obtencion de todas las restrinciones que tiene un usuario
+     * @param Request $r
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get_restrinctions(Request $r){
         $user = $r->user();
         $result = DB::table('users_restrict_apps')->
@@ -25,7 +31,17 @@ class AppController extends Controller
         }
         return response()->json($restrinctions,200);
     }
-    
+
+    public function getStatsApps(Request $r){
+        $user = $r->user();
+        $apps = App::all('name_app');
+        $times_apps_average = array();
+        foreach ($apps as $app) {
+            
+        }
+        return response()->json($apps,200);
+    }
+
 
 
 }
