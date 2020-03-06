@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class App extends Model
 {
+    protected $fillable = [
+        'id','logo','name'
+    ];
+    protected $primaryKey = 'id';
     public function users(){
         //Funcion pivot recupera campos de la tabla intermedia, en este caso seria la tabla intermedia entre Apps y Users.
         return $this->belongsToMany('App\User','users_have_apps')->

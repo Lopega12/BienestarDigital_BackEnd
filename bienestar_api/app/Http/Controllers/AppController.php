@@ -6,7 +6,6 @@ use App\App;
 use App\Restrinction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Expr\Array_;
 
 class AppController extends Controller
 {
@@ -26,6 +25,7 @@ class AppController extends Controller
         }
         return response()->json($restrinctions,200);
     }
+    
 
 
 }
