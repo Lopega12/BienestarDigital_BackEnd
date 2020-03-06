@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\App;
+use App\Helpers\TimeCalculator;
 use App\Restrinction;
+use Cassandra\Time;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,13 +35,20 @@ class AppController extends Controller
     }
 
     public function getStatsApps(Request $r){
+
         $user = $r->user();
-        $apps = App::all('name_app');
+        //$apps = App::all();
+        $apps = App::select('name_app')->get();
         $times_apps_average = array();
+
         foreach ($apps as $app) {
-            
+           // var_dump($app->name_app);
+            $listApps = $user->apps_user()->where('name_app','=',$app->name_app)->get();
+            print_r($listApps->filliable);
+           // $timeCalc = new TimeCalculator($listApps);
+            //$total_time_usage_seconds = $timeCalc->totalHours();
         }
-        return response()->json($apps,200);
+        //return response()->json($apps,200);
     }
 
 

@@ -25,17 +25,19 @@ class FileController extends Controller
         try {
             foreach ($lines as $key => $line){
                 $app = App::where('name_app',$line[1])->first();
-                if(is_null($app)){
+                if(!is_null($app)) {
                     //Attach sirve para insertar en la tabla intermedia, sin tener que crear el modelo//
-                    $user->apps_user()->attach($app->id,[
-                        'date'=> $line[0],
-                        'action'=> $line[2],
+                    $user->apps_user()->attach($app->id, [
+                        'date' => $line[0],
+                        'action' => $line[2],
                         'latitude' => $line[3],
                         'longitude' => $line[4],
                     ]);
+
                 }
             }
-            return response()->json("ok",200);
+            return response()->json("ok", 200);
+
         }catch (Exception $e){
             return response()->json($e->getMessage(),500);
         }
