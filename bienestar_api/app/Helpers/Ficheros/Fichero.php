@@ -15,7 +15,7 @@ class Fichero{
      }
 
     /**
-     * @param $file This parameter should be contain a string of all lines in the file.
+     * @param $file this parameter should be contain a string of all lines in the file.
      */
      public function readFile($file){
         // $file = explode("'\n'",$file);

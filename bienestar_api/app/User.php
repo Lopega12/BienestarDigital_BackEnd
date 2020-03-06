@@ -37,6 +37,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    protected $table = 'users';
 
     /***
      * Notificación personalizada para el envio de email de recuperar la contraseña
@@ -49,7 +50,7 @@ class User extends Authenticatable
 
     public function apps_user(){
         return $this->belongsToMany('App\App','users_have_apps')->
-        withPivot(['action','date','latitude','longitude'])->withTimestamps();
+        withPivot('action','date','latitude','longitude')->withTimestamps();
     }
 
     public function apps_restrinctions(){

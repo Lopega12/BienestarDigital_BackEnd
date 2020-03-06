@@ -31,3 +31,5 @@ Route::get('apps','AppController@getAllApps');
 
 Route::middleware('auth:api')->post('create_restrinction/{app_id}','UserController@save_restriction');
 Route::middleware('auth:api')->get('restrinctions','AppController@get_restrinctions');
+
+Route::middleware('auth:api')->get('apps/stats','AppController@getStatsApps');
