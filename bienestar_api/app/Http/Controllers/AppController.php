@@ -44,9 +44,13 @@ class AppController extends Controller
         foreach ($apps as $app) {
            // var_dump($app->name_app);
             $listApps = $user->apps_user()->where('name_app','=',$app->name_app)->get();
-            print_r($listApps->filliable);
-           // $timeCalc = new TimeCalculator($listApps);
-            //$total_time_usage_seconds = $timeCalc->totalHours();
+            /*foreach($listApps as $key => $listApp){
+                echo $key;
+               echo $listApp->pivot->action;
+            }*/
+           $timeCalc = new TimeCalculator($listApps);
+            $total_time_usage_seconds = $timeCalc->totalHours();
+            print($total_time_usage_seconds);
         }
         //return response()->json($apps,200);
     }
