@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\App;
 use App\Helpers\TimeCalculator;
+use App\Helpers\TimeStorageApp;
 use App\Restrinction;
 use Cassandra\Time;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
@@ -42,17 +44,21 @@ class AppController extends Controller
         $times_apps_average = array();
 
         foreach ($apps as $app) {
+
            // var_dump($app->name_app);
             $listApps = $user->apps_user()->where('name_app','=',$app->name_app)->get();
-            /*foreach($listApps as $key => $listApp){
-                echo $key;
-               echo $listApp->pivot->action;
-            }*/
            $timeCalc = new TimeCalculator($listApps);
             $total_time_usage_seconds = $timeCalc->totalHours();
-            print($total_time_usage_seconds);
+            $total_usage_time = Carbon::createFromTimestampUTC($total_time_usage_seconds)->toTimeString();
+            $total_usage_time_in_milliseconds  = $total_time_usage_seconds * 1000;
+
+            $day_average = Carbon::createFromTimestampMs($total_usage_time_in_milliseconds / 365)->format('H:i:s.u');
+            $week_average = Carbon::createFromTimestampMs($total_usage_time_in_milliseconds / 52)->format('H:i:s.u');
+            $month_average = Carbon::createFromTimestampMs($total_usage_time_in_milliseconds / 12)->format('H:i:s.u');
+
+            $apps_time_averages[] = new TimeStorageApp($app['name_app'], $total_usage_time, $day_average, $week_average, $month_average);
         }
-        //return response()->json($apps,200);
+        return response()->json($apps_time_averages,200);
     }
 
 
