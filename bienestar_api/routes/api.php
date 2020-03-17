@@ -33,3 +33,6 @@ Route::middleware('auth:api')->post('create_restrinction/{app_id}','UserControll
 Route::middleware('auth:api')->get('restrinctions','AppController@get_restrinctions');
 
 Route::middleware('auth:api')->get('apps/stats','AppController@getStatsApps');
+
+//Tiempo Total dias anteriores de app especifica
+Route::middleware('auth:api')->get('apps/total_time_usage_day/{id}','AppController@getUseTimeAppPerDay');

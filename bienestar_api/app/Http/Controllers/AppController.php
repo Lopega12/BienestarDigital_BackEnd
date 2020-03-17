@@ -36,6 +36,11 @@ class AppController extends Controller
         return response()->json($restrinctions,200);
     }
 
+    /**
+     * Obtener todas las estadisticas de las apps media en dias, semanas y meses
+     * @param Request $r
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getStatsApps(Request $r){
 
         $user = $r->user();
@@ -61,6 +66,25 @@ class AppController extends Controller
         return response()->json($apps_time_averages,200);
     }
 
+    /**
+     * Tiempo Total dias anteriores de app especifica
+     * @param Request $r
+     */
+    public function getUseTimeAppPerDay(Request $r,$id){
+        $user = $r->user();
+        $app_entries = $user->apps_user;
+        $apps_entries_by_date = $app_entries->where('id',$id)->groupBy(function($element){
+            $new_date = Carbon::parse($element->pivot->date);
+            return $new_date->format('Y-m-d');
+        });
+        $date_apps_per_day = array();
+        foreach($apps_entries_by_date as $key => $row){
+            $timeCalculator = new TimeCalculator($row);
+            $total_use_in_seconds = $timeCalculator->totalHours();
+            $total_use_time = Carbon::createFromTimestampUTC($total_use_in_seconds)->toTimeString();
+            //sigo por aqui
+        }
+    }
 
 
 }
