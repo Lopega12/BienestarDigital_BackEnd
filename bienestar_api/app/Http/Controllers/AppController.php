@@ -77,13 +77,15 @@ class AppController extends Controller
             $new_date = Carbon::parse($element->pivot->date);
             return $new_date->format('Y-m-d');
         });
-        $date_apps_per_day = array();
+        $date_apps_per_day = [];
         foreach($apps_entries_by_date as $key => $row){
             $timeCalculator = new TimeCalculator($row);
             $total_use_in_seconds = $timeCalculator->totalHours();
             $total_use_time = Carbon::createFromTimestampUTC($total_use_in_seconds)->toTimeString();
+            $date_apps_per_day[$key]= $total_use_time;
             //sigo por aqui
         }
+        return response()->json($date_apps_per_day,200);
     }
 
 
