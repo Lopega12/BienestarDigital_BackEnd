@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\App;
-use App\Helpers\AppTimeStorage;
 use App\Helpers\TimeCalculator;
 use App\Helpers\TimeStorageApp;
 use App\Restrinction;
@@ -88,6 +87,11 @@ class AppController extends Controller
         return response()->json($date_apps_per_day,200);
     }
 
+    /**
+     * Obtener la posiciones de las apps utilizadas
+     * @param Request $r
+     * @return \Illuminate\Http\JsonResponse
+     */
 public function get_apps_location(Request $r){
     $user = $r->user();
     $apps_names = App::select('name_app')->get();
@@ -97,7 +101,7 @@ public function get_apps_location(Request $r){
     foreach ($apps_names as $app_name)
     {
         $app_entry = $user->apps_user()->where('name_app', '=', $app_name["name_app"])->latest('date')->first();
-        $app_time_storage = new AppTimeStorage();
+        $app_time_storage = new TimeStorageApp();
         $apps_coordinates[] = $app_time_storage->create()->set_coordinates($app_entry->name_app, $app_entry->pivot->latitude, $app_entry->pivot->longitude);
 
     }

@@ -34,9 +34,11 @@ Route::get('apps','AppController@getAllApps');
 Route::middleware('auth:api')->post('create_restrinction/{app_id}','UserController@save_restriction');
 Route::middleware('auth:api')->get('restrinctions','AppController@get_restrinctions');
 
+
+ // Media de uso diario y organizado por dias, meses semanas//
 Route::middleware('auth:api')->get('apps/stats','AppController@getStatsApps');
 
-//Tiempo Total dias anteriores de app especifica
+//Tiempo Total dias anteriores de app especifica//
 Route::middleware('auth:api')->get('apps/total_time_usage_day/{id}','AppController@getUseTimeAppPerDay');
 
 //Tiempo de uso total//
