@@ -23,22 +23,22 @@ class UserController extends Controller
     public function save_restriction(Request $r,$id_app){
         $restrinction = new Restrinction($id_app,$r->time_finish,$r->start_time,$r->maxTime);
         $user = $r->user();
-            $app = $user->apps_restrinctions->where('id',$restrinction->getIdApp())->first();
+            $app = $user->apps_restrinctions->where('id',$restrinction->id_app)->first();
             if(!is_null($app)){
                 try{
-                    $app->pivot->max_use_time = $restrinction->getMaxTimeUse();
-                    $app->pivot->start_time = $restrinction->getStartTime();
-                    $app->pivot->finish_time = $restrinction->getStartFinish();
+                    $app->pivot->max_use_time = $restrinction->maxTimeUse;
+                    $app->pivot->start_time = $restrinction->start_time;
+                    $app->pivot->finish_time = $restrinction->start_finish;
                     $app->save();
                 }catch(\Exception $e){
                     return response()->json($e->getMessage(),500);
                 }
             }else{
                 try{
-                    $user->apps_restrinctions()->attach($restrinction->getIdApp(),[
-                        'max_use_time' => $restrinction->getMaxTimeUse(),
-                        'start_time' => $restrinction->getStartTime(),
-                        'finish_time' => $restrinction->getStartFinish()
+                    $user->apps_restrinctions()->attach($restrinction->id_app,[
+                        'max_use_time' => $restrinction->maxTimeUse,
+                        'start_time' => $restrinction->start_time,
+                        'finish_time' => $restrinction->start_finish
                     ]);
                 }catch(\Exception $e){
                     return response()->json($e->getMessage(),500);
