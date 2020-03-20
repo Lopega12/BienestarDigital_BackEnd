@@ -55,15 +55,17 @@ class UserController extends Controller
     public function use_time_apps(Request $r,$id){
         $user = $r->user();
         $app_entries = $user->apps_user()->wherePivot('app_id', $id)->get();
-        $app_entry = $user->apps_user->wherePivot('app_id', $id)->first();
+        $app_entry = $user->apps_user()->wherePivot('app_id', $id)->first();
+
         $app_entries_lenght = count($app_entries);
         $total_time_in_seconds = 0;
-
+        $from_hour = null;
+        $to_hour = null;
         for ($x = 0; $x <= $app_entries_lenght - 1; $x++) {
-
+            echo $x;
             $have_both_hours = false;
 
-            if($app_entries[$x]->pivot->event == "opens")
+            if($app_entries[$x]->pivot->action == "opens")
             {
                 $from_hour = Carbon::createFromFormat('Y-m-d H:i:s', $app_entries[$x]->pivot->date);
 
@@ -76,6 +78,7 @@ class UserController extends Controller
 
             if($have_both_hours)
             {
+
                 $total_time_in_seconds += $from_hour->diffInSeconds($to_hour);
 
             }
@@ -85,7 +88,7 @@ class UserController extends Controller
 
         return response()->json([
 
-            "app_name" => $app_entry->name,
+            "app_name" => $app_entry->name_app,
             "total_usage_time" => $total_usage_time,
 
         ],200);

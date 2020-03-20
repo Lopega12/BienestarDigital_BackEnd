@@ -42,3 +42,8 @@ Route::middleware('auth:api')->get('apps/total_time_usage_day/{id}','AppControll
 //Tiempo de uso total//
 Route::middleware('auth:api')->get('/usage_time/{id}','UserController@use_time_apps');
 
+//Obtener coordenadas de las apps
+Route::middleware('auth:api')->get('/location_apps','AppController@get_apps_location');
+
+
+

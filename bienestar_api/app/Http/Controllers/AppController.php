@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\App;
+use App\Helpers\AppTimeStorage;
 use App\Helpers\TimeCalculator;
 use App\Helpers\TimeStorageApp;
 use App\Restrinction;
-use Cassandra\Time;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -88,5 +88,45 @@ class AppController extends Controller
         return response()->json($date_apps_per_day,200);
     }
 
+public function get_apps_location(Request $r){
+    $user = $r->user();
+    $apps_names = App::select('name_app')->get();
+    $apps_coordinates = [];
+    $apps_coordinates_groups = [];
+
+    foreach ($apps_names as $app_name)
+    {
+        $app_entry = $user->apps_user()->where('name_app', '=', $app_name["name_app"])->latest('date')->first();
+        $app_time_storage = new AppTimeStorage();
+        $apps_coordinates[] = $app_time_storage->create()->set_coordinates($app_entry->name_app, $app_entry->pivot->latitude, $app_entry->pivot->longitude);
+
+    }
+
+    foreach ($apps_coordinates as $app_coordinates_entry)
+    {
+        $is_found = false;
+
+        foreach ($apps_coordinates_groups as $new_array_line)
+        {
+            if($app_coordinates_entry->latitude == $new_array_line->latitude && $app_coordinates_entry->longitude == $new_array_line->longitude){
+
+                $new_array_line->name .= " " . $app_coordinates_entry->name;
+                $is_found = true;
+                break;
+
+            }
+
+        }
+
+        if($is_found == false){
+
+            $apps_coordinates_groups[] = $app_coordinates_entry;
+
+        }
+
+    }
+
+    return response()->json($apps_coordinates_groups,200);
+}
 
 }
