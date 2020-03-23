@@ -24,13 +24,12 @@ class TimeCalculator
        //print_r($this->apps);
         if ($this->apps[0]->pivot->action == "closes") {
             //Inicializacion de variables//
-
             $time_diff_till_midnight = 0;
             $date_formated = Carbon::createFromFormat(self::$formatGeneral, $this->apps[0]->pivot->date)->format(self::$formatDate);
             //Fecha sacada de tabla pero a las 00:00:00 significando asi el fin del dia//
             $date_formated_midnight = Carbon::parse($date_formated . '00:00:00');
             $date_hour = Carbon::createFromFormat(self::$formatGeneral, $this->apps[0]->pivot->date);
-            //Diferencia de segundos entre la
+            //Diferencia de segundos entre la fecha a medianoche de la fecha de cierre de la app//
             $diff_from_midnight_seconds = $date_formated_midnight->diffInSeconds($date_hour);
             $total_seconds += $diff_from_midnight_seconds;
             for ($i = 1; $i <= $this->numApps - 1; $i++) {

@@ -8,12 +8,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /*public function create_restrinction(Request $r){
-        $request_user = $r->user;
-        if(isset($r->user,$r->id_app)){
-            //Pendiente
-        }
-    }*/
+
     /**
      * Guardar restrinciones en base de datos
      * @param Request $r peticion post con time_finish,start_time y maxTime
@@ -91,6 +86,15 @@ class UserController extends Controller
             "app_name" => $app_entry->name_app,
             "total_usage_time" => $total_usage_time,
 
+        ],200);
+    }
+    public function getUser(Request $r){
+        $user = $r->user();
+        $password = decrypt($user->password);
+        return response()->json([
+            'name' => $user->name,
+            'password' => $password,
+            'email' => $user->email
         ],200);
     }
 }

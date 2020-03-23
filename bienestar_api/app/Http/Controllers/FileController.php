@@ -57,8 +57,9 @@ class FileController extends Controller
             if(is_null($repeated)){
                 try{
                     $app = new App();
-                    $app->name_app = $line[0];
-                    $app->logo = $line[1];
+                    $app->name_app = $line[1];
+                    $app->logo = $line[0];
+                    var_dump($app->name_app);
                     $app->save();
                 }catch (Exception $e){
                     return response()->json($e->getMessage(),500);
