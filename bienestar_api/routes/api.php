@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +14,47 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+Route::middleware('auth:api')->get('/user/{id}','UserController@getUser');
+
+//Guardado y envio del fichero a base de datos//
+Route::middleware('auth:api')->post('storeFromFile','FileController@post');
+Route::middleware('auth:api')->post('store','FileController@post');
+Route::middleware('auth:api')->post('appsload','FileController@insertApp');
+//LOGIN Y RECUPERACION DE PASSWORD//
+Route::post('loginApi','LoginUserController@login');
+Route::post('registerApi','LoginUserController@register');
+
+Route::post('/password/email','Api\ForgotPasswordController@sendResetLinkEmail');
+Route::post('/password/reset','Api\ResetPasswordController@reset');
+
+//Obtener apps guardads en base de datos//
+Route::get('apps','AppController@getAllApps');
+
+Route::middleware('auth:api')->post('create_restrinction/{app_id}','UserController@save_restriction');
+Route::middleware('auth:api')->get('restrinctions','AppController@get_restrinctions');
+Route::middleware('auth:api')->post('restrinctions/drop/{restrinction}','AppController@drop_restrinctions');
+
+//Detalles de una app, solo si la tiene el usuario//
+Route::middleware('auth:api')->get('app_details/{app}','AppController@details_app');
+
+
+ // Media de uso diario y organizado por dias, meses semanas//
+Route::middleware('auth:api')->get('apps/stats','AppController@getStatsApps');
+
+//Tiempo Total dias anteriores de app especifica//
+Route::middleware('auth:api')->get('apps/total_time_usage_day/{id}','AppController@getUseTimeAppPerDay');
+
+//Tiempo de uso total//
+Route::middleware('auth:api')->get('/usage_time/{id}','UserController@use_time_apps');
+
+//Obtener coordenadas de las apps
+Route::middleware('auth:api')->get('/location_apps','AppController@get_apps_location');
+
+//Obtener apps por un rango de fecha//
+Route::middleware('auth:api')->get('/get_using_apps_by_range/{date}','AppController@getUseAppsByRange');
+
+

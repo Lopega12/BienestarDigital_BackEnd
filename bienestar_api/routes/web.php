@@ -11,6 +11,15 @@
 |
 */
 
+use Illuminate\Support\Facades\Request;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+/*Route::get('pruebas',function(){
+    print(hash('sha256','hola'));
+});*/
