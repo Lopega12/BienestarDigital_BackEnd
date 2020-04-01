@@ -99,7 +99,7 @@ class AppController extends Controller
             $total_use_in_seconds = $timeCalculator->totalHours();
             $total_use_time = Carbon::createFromTimestampUTC($total_use_in_seconds)->toTimeString();
             $date_apps_per_day[$key]= $total_use_time;
-            
+
         }
         return response()->json($date_apps_per_day,200);
     }
@@ -186,7 +186,7 @@ public function getUseAppsByRange(Request $r,$date){
             ->orderBy('date', 'desc')
             ->first();
 
-        if($app_initial_range == NULL && $app_finish_range == NULL && $app_opens_no_closes == NULL)
+        if(is_null($app_initial_range)  && is_null($app_finish_range) && is_null($app_opens_no_closes))
         {
             $apps_ranges[] = new Restrinction($app->name_app, "Sin tiempo de uso", "Sin tiempo de uso", "Sin tiempo de uso");
 
@@ -223,12 +223,11 @@ public function getUseAppsByRange(Request $r,$date){
             }
         }
     }
-
-    return response()->json(
-
-        $apps_user_ranges
-
-        , 200);
+if (isset($apps_user_ranges)){
+    return response()->json($apps_user_ranges, 200);
+}else{
+    return response()->json("datos no encontrados para la fecha $date",404);
+}
 }
 
     /**

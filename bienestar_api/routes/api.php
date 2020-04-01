@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user/{id}','UserController@getUser');
 
 //Guardado y envio del fichero a base de datos//
-Route::middleware('auth:api')->post('storeFromFile','FileController@post');
+//Route::middleware('auth:api')->post('storeFromFile','FileController@post');
 Route::middleware('auth:api')->post('store','FileController@post');
 Route::middleware('auth:api')->post('appsload','FileController@insertApp');
 //LOGIN Y RECUPERACION DE PASSWORD//
